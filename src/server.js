@@ -3,7 +3,7 @@ const express = require("express"),
   listEndpoints = require("express-list-endpoints"),
   cors = require("cors");
 
-const { sequelize } = require("./utilities/connections");
+const db = require("./utilities/connections");
 
 //SERVICES ROUTES IMPORTS
 const mainRoute = require("./services");
@@ -65,8 +65,14 @@ server.use(genericError);
 console.log(listEndpoints(server));
 
 //SERVER LISTEN
-server.listen(PORT, () => {
-  process.env.NODE_ENV === "production"
-    ? console.log(`Server running ONLINE on : ${PORT}`)
-    : console.log(`Server running LOCALLY on : http://localhost:${PORT}`);
-});
+
+db.sequelize
+  .sync({ force: true })
+  .then((result) => {
+    server.listen(PORT, () => {
+      process.env.NODE_ENV === "production"
+        ? console.log(`Server running ONLINE on : ${PORT}`)
+        : console.log(`Server running LOCALLY on : http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));
