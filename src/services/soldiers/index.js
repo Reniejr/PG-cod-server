@@ -1,5 +1,6 @@
 const soldierRoute = require("express").Router();
 const Soldier = require("../../utilities/connections").Soldier;
+const { soldierUpload } = require("../../utilities/cloudinary");
 
 soldierRoute
   .route("/")
@@ -54,6 +55,26 @@ soldierRoute
         if (rowDeleted > 0) res.send("Soldier Deleted");
         else res.send("No soldier match");
       });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  });
+
+soldierRoute
+  .route("/image/:id")
+  .put(soldierUpload.single("soldier"), async (req, res, next) => {
+    try {
+      const soldier = await Soldier.findByPk(req.params.id);
+      let body = await { ...soldier };
+      body.avatar = req.file.path;
+      const editSoldier = await Soldier.update(body, {
+        returning: true,
+        where: {
+          _id: req.params.id,
+        },
+      });
+      res.send(editSoldier);
     } catch (error) {
       console.log(error);
       next(error);
