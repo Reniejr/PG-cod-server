@@ -40,7 +40,7 @@ const server = express(),
 
 //MIDDLEWARES
 server.use(express.json());
-server.use(cors(corsOptions));
+server.use(cors());
 
 //SERVICES ENDPOINTS
 //GENERAL
