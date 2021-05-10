@@ -8,17 +8,17 @@ const Mission = require("../../services/db/missions");
 const Reward = require("../../services/db/rewards");
 
 const sequelize = new Sequelize(
-  process.env.PG_DATABASE_OFF,
-  process.env.PG_USER_OFF,
-  process.env.PG_PASSWORD_OFF,
+  // process.env.PG_DATABASE_OFF,
+  // process.env.PG_USER_OFF,
+  // process.env.PG_PASSWORD_OFF,
   // DEPLOYED V.
-  // process.env.PG_DATABASE,
-  // process.env.PG_USER,
-  // process.env.PG_PASSWORD,
+  process.env.PG_DATABASE,
+  process.env.PG_USER,
+  process.env.PG_PASSWORD,
   {
-    host: process.env.PG_HOST_OFF,
+    // host: process.env.PG_HOST_OFF,
     // DEPLOYED V.
-    // host: process.env.PG_HOST,
+    host: process.env.PG_HOST,
 
     dialect: "postgres",
     logging: false,
@@ -27,12 +27,12 @@ const sequelize = new Sequelize(
     },
 
     // DEPLOYED V.
-    // dialectOptions: {
-    //   ssl: {
-    //     require: true,
-    //     rejectUnauthorized: false,
-    //   },
-    // },
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   }
 );
 
