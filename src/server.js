@@ -67,7 +67,7 @@ console.log(listEndpoints(server));
 //SERVER LISTEN
 
 db.sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then((result) => {
     server.listen(PORT, () => {
       process.env.NODE_ENV === "production"
